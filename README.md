@@ -1,1 +1,2 @@
-this is a readme
+![logo](logo.png)
+this is a readme with a cool logo
