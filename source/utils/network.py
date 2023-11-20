@@ -42,3 +42,4 @@ def get_norm(name, out_channels):
     elif name == "layernorm":
         module = nn.LayerNorm(out_channels)
     return module
+
