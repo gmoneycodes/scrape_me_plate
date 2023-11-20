@@ -6,7 +6,7 @@ from torch.utils.data import Dataset
 import pytorch_lightning as pl
 from scrape_me_plate.source import ROOT_DIR
 
-class PlateDataset(pl.LightningDataModule):
+class PlateDataset(Dataset):
     def __init__(self, data_dir: str = "yolov7", split: str = "train", ext: str = "jpg",
                  transforms=None):
         """
