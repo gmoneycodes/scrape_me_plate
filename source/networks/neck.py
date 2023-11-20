@@ -1,3 +1,9 @@
+import torch
+import torch.nn as nn
+
+from source.networks.blocks import BaseConv, CSPLayer
+
+
 class YOLOv7NECK(nn.Module):
     """
     Only proceed 3 layer input. Like stage2, stage3, stage4.
@@ -24,7 +30,7 @@ class YOLOv7NECK(nn.Module):
             num_bottle=depths[0],
             norm=norm,
             act=act,
-            )
+        )
 
         self.conv_for_P4 = BaseConv(in_channels[2] // 4, in_channels[2] // 8, 1, 1, norm=norm, act=act)
         self.conv_for_C3 = BaseConv(in_channels[0], in_channels[2] // 8, 1, 1, norm=norm, act=act)
@@ -35,7 +41,7 @@ class YOLOv7NECK(nn.Module):
             num_bottle=depths[0],
             norm=norm,
             act=act,
-            )
+        )
 
         # bottom-up conv
         self.downsample_conv1 = Transition(in_channels[2] // 8, in_channels[2] // 4, mpk=2, norm=norm, act=act)
@@ -46,7 +52,7 @@ class YOLOv7NECK(nn.Module):
             num_bottle=depths[0],
             norm=norm,
             act=act,
-            )
+        )
 
         self.downsample_conv2 = Transition(in_channels[2] // 4, in_channels[2] // 2, mpk=2, norm=norm, act=act)
         self.n4_n5 = CSPLayer(
@@ -56,7 +62,7 @@ class YOLOv7NECK(nn.Module):
             num_bottle=depths[0],
             norm=norm,
             act=act,
-            )
+        )
 
         self.n3 = BaseConv(in_channels[2] // 8, in_channels[2] // 4, 3, 1, norm=norm, act=act)
         self.n4 = BaseConv(in_channels[2] // 4, in_channels[2] // 2, 3, 1, norm=norm, act=act)

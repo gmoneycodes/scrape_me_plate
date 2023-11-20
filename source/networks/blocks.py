@@ -1,7 +1,6 @@
 import torch
 import torch.nn as nn
-from .activation import get_activation
-from .normalization import get_normalization
+from source.utils.network import get_activation, get_norm
 
 
 class BaseConv(nn.Module):
@@ -25,7 +24,7 @@ class BaseConv(nn.Module):
             groups=groups,
             bias=bias,
         )
-        self.norm = get_normalization(norm, out_channels)
+        self.norm = get_norm(norm, out_channels)
         self.act = get_activation(act, inplace=True)
 
     def forward(self, x):
@@ -109,7 +108,7 @@ class CSPLayer(nn.Module):
             out_channels (int): output channels.
             num_bottle (int): number of Bottlenecks. Default value: 1.
             shortcut (bool): residual operation.
-            expansion (int): the number that hidden channels compared with output channels.
+            expansion (float): the number that hidden channels compared with output channels.
             norm (str): type of normalization
             act (str): type of activation
         """
