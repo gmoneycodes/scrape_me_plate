@@ -1,2 +1,2 @@
 ![logo](logo.png)
-this is a readme with a cool logo
+Pytorch lightning implementation of yolov7 fine tuning + OCR
