@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
 
-from source.networks.blocks import BaseConv, CSPLayer
+from source.networks.blocks import BaseConv, CSPLayer, SPPCSPC
 
 
 class YOLOv7NECK(nn.Module):
@@ -99,3 +99,21 @@ class YOLOv7NECK(nn.Module):
 
         outputs = (n3, n4, n5)
         return outputs
+
+
+class Transition(nn.Module):
+    def __init__(self, in_channel, out_channel, mpk=2, norm='bn', act="silu"):
+        super(Transition, self).__init__()
+        self.mp = nn.MaxPool2d(kernel_size=mpk, stride=mpk)
+        self.conv1 = BaseConv(in_channel, out_channel // 2, 1, 1)
+        self.conv2 = BaseConv(in_channel, out_channel // 2, 1, 1)
+        self.conv3 = BaseConv(out_channel // 2, out_channel // 2, 3, 2, norm=norm, act=act)
+
+    def forward(self, x):
+        x_1 = self.mp(x)
+        x_1 = self.conv1(x_1)
+
+        x_2 = self.conv2(x)
+        x_2 = self.conv3(x_2)
+
+        return torch.cat([x_2, x_1], 1)

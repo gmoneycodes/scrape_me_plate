@@ -78,7 +78,7 @@ class Bottleneck(nn.Module):
     ):
         super().__init__()
         hidden_channels = int(out_channels * expansion)
-        self.bn = get_normalization(norm, out_channels)
+        self.bn = get_norm(norm, out_channels)
         self.act = get_activation(act, inplace=True)
         self.conv1 = BaseConv(in_channels, hidden_channels, 1, stride=1, norm=norm, act=act)
         self.conv2 = BaseConv(hidden_channels, out_channels, 3, stride=1, norm=norm, act=act)
